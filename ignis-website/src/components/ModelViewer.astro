@@ -20,6 +20,7 @@ const {
 ---
 
 <model-viewer
+  id="model-viewer"
   src={src}
   alt={alt}
   auto-rotate={autoRotate}
@@ -56,8 +57,8 @@ const {
   .loading-spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid rgba(255, 69, 0, 0.3);
-    border-top-color: var(--primary);
+    border: 3px solid rgba(220, 191, 228, 0.3);
+    border-top-color: #DCBFE4;
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -65,4 +66,31 @@ const {
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
+  
+  /* Hide loading indicator when model is loaded */
+  model-viewer:defined .model-loading {
+    display: none;
+  }
 </style>
+
+<script>
+  // Hide custom progress bar when model loads
+  const viewer = document.getElementById('model-viewer');
+  if (viewer) {
+    viewer.addEventListener('load', () => {
+      const loadingDiv = viewer.querySelector('.model-loading');
+      if (loadingDiv) {
+        loadingDiv.style.display = 'none';
+      }
+    });
+    
+    // Also hide on error
+    viewer.addEventListener('error', () => {
+      const loadingDiv = viewer.querySelector('.model-loading');
+      if (loadingDiv) {
+        loadingDiv.innerHTML = '<p>⚠️ Failed to load model</p>';
+        loadingDiv.style.color = '#ff6666';
+      }
+    });
+  }
+</script>

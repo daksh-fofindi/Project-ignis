@@ -9,6 +9,9 @@ import HardwareCard from '../components/HardwareCard.astro';
 <Layout title="Hardware | IGNIS TVC System">
   <Header />
 
+  <!-- Spacer for fixed navbar -->
+  <div class="page-spacer"></div>
+
   <section class="section">
     <div class="container">
       <h1 class="section-title">Hardware Modules</h1>
@@ -28,9 +31,7 @@ import HardwareCard from '../components/HardwareCard.astro';
             "MicroSD card logging"
           ]}
         />
-        <!-- Add this spacer div -->
-  <div class="page-spacer"></div>
-  
+        
         <HardwareCard 
           title="IGNIS-CTRL"
           description="Mechanical thrust vectoring mechanism"
@@ -44,8 +45,6 @@ import HardwareCard from '../components/HardwareCard.astro';
             "Weight: ~200g"
           ]}
         />
-        <!-- Add this spacer div -->
-  <div class="page-spacer"></div>
 
         <HardwareCard 
           title="IGNIS-NET"
@@ -63,8 +62,7 @@ import HardwareCard from '../components/HardwareCard.astro';
       </div>
     </div>
   </section>
-<!-- Add this spacer div -->
-  <div class="page-spacer"></div>
+
   <!-- 3D Models Gallery -->
   <section class="section section-dark">
     <div class="container">
@@ -72,13 +70,14 @@ import HardwareCard from '../components/HardwareCard.astro';
       
       <div class="model-gallery">
         <div class="model-item">
-          <h3>Complete Rocket Assembly</h3>
+          <h3>Avionics Bay</h3>
           <ModelViewer 
-            src="/models/ignis_rocket.glb" 
+            src="/models/AvionicsBay.gltf" 
             autoRotate={true}
             cameraControls={true}
             className="small-viewer"
           />
+          <p class="model-caption">Electronics enclosure with sensor mounting</p>
         </div>
         
         <div class="model-item">
@@ -89,22 +88,23 @@ import HardwareCard from '../components/HardwareCard.astro';
             cameraControls={true}
             className="small-viewer"
           />
+          <p class="model-caption">Gimbal mount with servo linkages</p>
         </div>
         
         <div class="model-item">
-          <h3>Ground Station</h3>
+          <h3>Core Mount</h3>
           <ModelViewer 
-            src="/models/ground_station.glb" 
+            src="/models/core_mount.stl" 
             autoRotate={true}
             cameraControls={true}
             className="small-viewer"
           />
+          <p class="model-caption">PCB mounting bracket for flight computer</p>
         </div>
       </div>
     </div>
   </section>
-<!-- Add this spacer div -->
-  <div class="page-spacer"></div>
+
   <!-- Wiring Diagram -->
   <section class="section">
     <div class="container">
@@ -123,16 +123,25 @@ import HardwareCard from '../components/HardwareCard.astro';
       </div>
     </div>
   </section>
-<!-- Add this spacer div -->
-  <div class="page-spacer"></div>
+
   <Footer />
 </Layout>
 
 <style>
+  .page-spacer {
+    height: 80px;
+  }
+  
   .section-subtitle {
     text-align: center;
     color: var(--text-muted);
     margin-bottom: 3rem;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
   }
   
   .model-gallery {
@@ -142,14 +151,37 @@ import HardwareCard from '../components/HardwareCard.astro';
     margin-top: 2rem;
   }
   
+  .model-item {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease;
+  }
+  
+  .model-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+  }
+  
   .model-item h3 {
     text-align: center;
     margin-bottom: 1rem;
     color: var(--primary);
   }
   
+  .model-caption {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+  }
+  
   .small-viewer {
     height: 300px !important;
+    width: 100%;
+    border-radius: 8px;
+    background: var(--background-light);
   }
   
   .wiring-container {
@@ -162,13 +194,14 @@ import HardwareCard from '../components/HardwareCard.astro';
   .wiring-diagram {
     width: 100%;
     border-radius: 16px;
-    border: 1px solid rgba(255, 69, 0, 0.2);
+    border: 1px solid var(--border);
   }
   
   .wiring-notes {
-    background: var(--gray);
+    background: var(--surface);
     padding: 1.5rem;
     border-radius: 16px;
+    border: 1px solid var(--border);
   }
   
   .wiring-notes h3 {
@@ -181,9 +214,10 @@ import HardwareCard from '../components/HardwareCard.astro';
   }
   
   .wiring-notes li {
-    margin-bottom: 0.5rem;
-    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding-left: 1.8rem;
     position: relative;
+    color: var(--text-muted);
   }
   
   .wiring-notes li::before {
@@ -193,11 +227,19 @@ import HardwareCard from '../components/HardwareCard.astro';
   }
   
   @media (max-width: 768px) {
+    .page-spacer {
+      height: 120px;
+    }
+    
     .wiring-container {
       grid-template-columns: 1fr;
     }
     
     .model-gallery {
+      grid-template-columns: 1fr;
+    }
+    
+    .grid {
       grid-template-columns: 1fr;
     }
   }
